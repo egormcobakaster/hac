@@ -63,17 +63,6 @@ for im_path in list_im:
     scores.append(out[0,1])
     print(im_path.split('/')[-2], scores[-1])
     
-    # name_im = str(count)
-    # if im_path.split('/')[6] == 'spoof':
-    #     if scores[-1] > 0.3 and count_spoof <100:
-    #         count_spoof += 1
-    #         cv2.imwrite('/Users/egorperelygin/data_image_spoof/' + name_im + '.jpg', orgimg)
-    # else:
-    #     if scores[-1] < 0.5 and count_live <100:
-    #         count_live += 1
-    #         cv2.imwrite('/Users/egorperelygin/data_image_live/' + name_im + '.jpg', orgimg)
-    # if count_spoof == 100 and count_live==100:
-    #     break
 
 # fpr_list = [0.01, 0.005, 0.001]
 # threshold_list = get_thresholdtable_from_fpr(scores,labels, fpr_list)
