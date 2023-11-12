@@ -13,10 +13,13 @@
     y2 = box[3] + h // 2
   
   predict live prob
+
+  
 #test:
   
-  change input path in test.py (line 14)
+  change input path in test.py (line 14).
   out - ./out.txt:
+  
     ...
     path_to_image live_prob
     path_to_image live prob
