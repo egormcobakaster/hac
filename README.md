@@ -4,6 +4,8 @@
   
   expand box:
     x1 = box[0] - w // 2
+
+    
     y1 = box[1] - h // 2
     x2 = box[2] + w // 2
     y2 = box[3] + h // 2
