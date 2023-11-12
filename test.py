@@ -50,10 +50,10 @@ for im_path in list_im:
     y2 = box[3]
     h = y2 - y1
     w = x2 - x1
-    x1 = box[0] - w // 2
-    y1 = box[1] - h // 2
-    x2 = box[2] + w // 2
-    y2 = box[3] + h // 2
+    x1 = box[0] - w // 6
+    y1 = box[1] - h // 6
+    x2 = box[2] + w // 6
+    y2 = box[3] + h // 6
     y1 = 0 if y1 < 0 else y1
     x1 = 0 if x1 < 0 else x1 
     y2 = real_h if y2 > real_h else y2
