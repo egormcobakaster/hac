@@ -1,4 +1,4 @@
-#pipeline:
+#pipeline
 
   extract face box with yolo
     
