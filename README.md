@@ -18,8 +18,14 @@
 
   
 #test:
+
+
+  run test.py
+  
   
   change input path in test.py (line 14).
+
+  
   out - ./out.txt:
   
     ...
