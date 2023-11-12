@@ -8,13 +8,14 @@ from tsn_predict import *
 import os
 import matplotlib.pyplot as plt
 import cv2
+
 from client import get_thresholdtable_from_fpr, get_tpr_from_threshold
 
+PATH_DATA = '/Users/egorperelygin/Downloads/DataSet/NUAA/spoof/0001'
 
-
-model = attempt_load("./yolov7s-face.pt", map_location="cpu")
+face_model = attempt_load("./yolov7s-face.pt", map_location="cpu")
 list_im = []
-for address, dirs, files in os.walk('/Users/egorperelygin/image_test'):
+for address, dirs, files in os.walk(PATH_DATA):
     for name in files:
         if name[-1] == 'g':
             list_im.append(os.path.join(address, name))
@@ -32,14 +33,14 @@ for im_path in list_im:
     if count % 200 == 0:
         print(count)
     count += 1
-    orgimg = np.array(Image.open(im_path))
+    orgimg = cv2.imread(im_path)
     orgimg = cv2.cvtColor(orgimg, cv2.COLOR_BGR2RGB)
     # plt.imshow(orgimg)
     # name_im = str(count)
     # plt.savefig('/Users/egorperelygin/ex/' + name_im + 'foo.png')
     
     orgimg_t = torch.tensor(np.transpose(orgimg,(2,0,1))).unsqueeze(0) / 255.
-    outs = model(orgimg_t)[0]
+    outs = face_model(orgimg_t)[0]
     box = non_max_suppression(outs)[0][0,:4].int()
 
     real_h,real_w,c = orgimg.shape
@@ -47,6 +48,12 @@ for im_path in list_im:
     y1 = box[1]
     x2 = box[2]
     y2 = box[3]
+    h = y2 - y1
+    w = x2 - x1
+    x1 = box[0] - w // 2
+    y1 = box[1] - h // 2
+    x2 = box[2] + w // 2
+    y2 = box[3] + h // 2
     y1 = 0 if y1 < 0 else y1
     x1 = 0 if x1 < 0 else x1 
     y2 = real_h if y2 > real_h else y2
@@ -58,11 +65,13 @@ for im_path in list_im:
     #plt.savefig('/Users/egorperelygin/' + name_im + 'foo.png')
 
 
-    labels.append(int(im_path.split('/')[-2] == 'spoof'))
+    #labels.append(int(im_path.split('/')[-2] == 'spoof'))
     out = pt_model.predict([crop_im])
-    scores.append(out[0,1])
-    print(im_path.split('/')[-2], scores[-1])
-    
+    scores.append(out[0,0])
+
+with open('./out1.txt', 'w') as file:
+    for i in range(len(scores)):
+        file.write(list_im[i] + " " + str(scores[i]) + '\n')
 
 # fpr_list = [0.01, 0.005, 0.001]
 # threshold_list = get_thresholdtable_from_fpr(scores,labels, fpr_list)
