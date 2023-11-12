@@ -12,7 +12,9 @@
     x2 = box[2] + w // 2
     y2 = box[3] + h // 2
   
-  predict live prob
+  predict live prob:
+
+    out = pt_model.predict([crop_im])
 
   
 #test:
